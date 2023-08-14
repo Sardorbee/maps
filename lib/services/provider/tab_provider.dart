@@ -7,4 +7,9 @@ class TabProvider with ChangeNotifier {
     currentIndex = index;
     notifyListeners();
   }
+
+  updateCurIndex(int index) {
+    currentIndex = index;
+    notifyListeners();
+  }
 }

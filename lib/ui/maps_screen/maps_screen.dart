@@ -39,6 +39,7 @@ class _MapScreenState extends State<MapScreen> {
       body: Stack(
         children: [
           GoogleMap(
+            
             onTap: (argument) {
               context.read<MapProvider>().updateLatLngAndAddMArker(argument);
               context
