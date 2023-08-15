@@ -13,6 +13,7 @@ initLocationService(BuildContext context) async {
   if (!serviceEnabled) {
     serviceEnabled = await location.requestService();
     if (!serviceEnabled) {
+
       return;
     }
   }
@@ -34,9 +35,6 @@ initLocationService(BuildContext context) async {
 
   location.onLocationChanged.listen((LocationData newLocation) {
     if (context.read<MapProvider>().isStartedRoute == true) {
-      // context
-      //     .read<MapProvider>()
-      //     .addRouteStartMarker(newLocation.latitude!, newLocation.longitude!);
       context.read<MapProvider>().addStreamMarker(newLocation);
     }
 

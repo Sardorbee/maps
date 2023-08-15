@@ -24,7 +24,7 @@ class _MapScreenState extends State<MapScreen> {
        
     myLocation = CameraPosition(
       target: LatLng(widget.lat, widget.long),
-      zoom: 14.0,
+      zoom: 25.0,
     );
   }
 
