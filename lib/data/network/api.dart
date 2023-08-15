@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:dio_example/data/models/geocoding/geocoding.dart';
 import 'package:dio_example/data/models/universal_data.dart';
 import 'package:dio_example/utils/constants/constants.dart';
-import 'package:flutter/cupertino.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -16,36 +15,36 @@ class ApiService {
         "Content-Type": "application/json",
         "Authorization": apiKey,
       },
-      connectTimeout: Duration(seconds: 25),
-      receiveTimeout: Duration(seconds: 20),
-      sendTimeout: Duration(seconds: 15),
+      connectTimeout: const Duration(seconds: 25),
+      receiveTimeout: const Duration(seconds: 20),
+      sendTimeout: const Duration(seconds: 15),
     ),
   );
 
   ApiService() {
-    _init();
+    // _init();
   }
 
-  _init() {
-    dio.interceptors.add(
-      InterceptorsWrapper(
-        onError: (error, handler) async {
-          //error.response.statusCode
-          debugPrint("ERRORGA KIRDI:${error.message} and ${error.response}");
-          return handler.next(error);
-        },
-        onRequest: (requestOptions, handler) async {
-          debugPrint("SO'ROV  YUBORILDI :${handler.isCompleted}");
-          // return handler.resolve(Response(requestOptions: requestOptions, data: {"name": "ali", "age": 26}));
-          return handler.next(requestOptions);
-        },
-        onResponse: (response, handler) async {
-          debugPrint("JAVOB  KELDI :${handler.isCompleted}");
-          return handler.next(response);
-        },
-      ),
-    );
-  }
+  // _init() {
+  //   dio.interceptors.add(
+  //     InterceptorsWrapper(
+  //       onError: (error, handler) async {
+  //         //error.response.statusCode
+  //         debugPrint("ERRORGA KIRDI:${error.message} and ${error.response}");
+  //         return handler.next(error);
+  //       },
+  //       onRequest: (requestOptions, handler) async {
+  //         debugPrint("SO'ROV  YUBORILDI :${handler.isCompleted}");
+  //         // return handler.resolve(Response(requestOptions: requestOptions, data: {"name": "ali", "age": 26}));
+  //         return handler.next(requestOptions);
+  //       },
+  //       onResponse: (response, handler) async {
+  //         debugPrint("JAVOB  KELDI :${handler.isCompleted}");
+  //         return handler.next(response);
+  //       },
+  //     ),
+  //   );
+  // }
 
   Future<UniversalData> getAddress({
     required LatLng latLng,

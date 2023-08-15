@@ -1,10 +1,8 @@
-import 'package:dio_example/services/provider/db_provider.dart';
-import 'package:dio_example/services/provider/map_provider.dart';
-import 'package:dio_example/ui/maps_screen/maps_screen.dart';
+
 import 'package:dio_example/ui/tab_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
-import 'package:provider/provider.dart';
+
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});

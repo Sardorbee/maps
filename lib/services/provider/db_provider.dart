@@ -11,7 +11,7 @@ class DatabaseProvider with ChangeNotifier {
 
   getAddresses() async {
     addresses = await LocalDatabase.getAllAddresses();
-    print("CURRENT LENGTH:${addresses.length}");
+    // print("CURRENT LENGTH:${addresses.length}");
     notifyListeners();
   }
 

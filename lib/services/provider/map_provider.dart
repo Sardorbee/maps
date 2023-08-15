@@ -1,13 +1,14 @@
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:dio_example/data/models/universal_data.dart';
 import 'package:dio_example/data/models/user_address.dart';
 import 'package:dio_example/data/network/api.dart';
-import 'package:dio_example/services/provider/db_provider.dart';
 import 'package:dio_example/utils/constants/constants.dart';
+import 'package:dio_example/utils/utility_fns.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:provider/provider.dart';
+import 'package:location/location.dart';
 
 class MapProvider with ChangeNotifier {
   MapProvider({required this.apiService, required BuildContext context});
@@ -18,6 +19,8 @@ class MapProvider with ChangeNotifier {
   String kind = "house";
   String lang = "uz_UZ";
   Set<Marker> markers = {};
+  bool isStartedRoute = false;
+
   double latt = 0;
   double long = 0;
   MapType mapType = MapType.normal;
@@ -51,6 +54,11 @@ class MapProvider with ChangeNotifier {
     } else {
       debugPrint("ERROR:${universalData.error}");
     }
+    notifyListeners();
+  }
+
+  clearMarkers() {
+    markers.clear();
     notifyListeners();
   }
 
@@ -93,10 +101,73 @@ class MapProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  addStreamMarker(
+    LocationData location,
+  ) async {
+    Uint8List uint8list = await getBytesFromAsset("assets/dot.png", 50);
+
+    latt = location.latitude!;
+    long = location.longitude!;
+
+    markers.add(
+      Marker(
+        icon: BitmapDescriptor.fromBytes(uint8list),
+        markerId: MarkerId(location.time!.toString()),
+        position: LatLng(latt, long),
+        infoWindow: InfoWindow(title: location.satelliteNumber.toString()),
+      ),
+    );
+    notifyListeners();
+  }
+
+  addRouteStartMarker(
+    double lat,
+    double longgg,
+  ) async {
+    Uint8List uint8list = await getBytesFromAsset("assets/start.png", 150);
+
+    markers.add(
+      Marker(
+        icon: BitmapDescriptor.fromBytes(uint8list),
+
+        markerId: MarkerId(DateTime.now().toString()),
+        position: LatLng(lat, longgg),
+        infoWindow: const InfoWindow(title: 'Start'),
+      ),
+    );
+    isStartedRoute = true;
+    notifyListeners();
+  }
+
+  updateIsStarted() {
+    isStartedRoute = !isStartedRoute;
+    notifyListeners();
+  }
+
+  addRouteFinishMarker(
+    double lat,
+    double longgg,
+  ) async {
+    Uint8List uint8list = await getBytesFromAsset("assets/finish.png", 150);
+
+    markers.add(
+      Marker(
+        icon: BitmapDescriptor.fromBytes(uint8list),
+
+        markerId: MarkerId(DateTime.now().toString()),
+        position: LatLng(lat, longgg),
+        infoWindow: const InfoWindow(title: 'Destination'),
+      ),
+    );
+    isStartedRoute = true;
+    notifyListeners();
+  }
+
   updateDropdownValue(value) {
     dropdownValue = value;
     notifyListeners();
   }
+
   updateLangvalue(value) {
     newLAng = value;
     notifyListeners();

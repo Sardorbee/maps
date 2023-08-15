@@ -1,3 +1,4 @@
+import 'package:dio_example/services/location_service.dart';
 import 'package:dio_example/services/provider/tab_provider.dart';
 import 'package:dio_example/ui/contribute_screen/contribute.dart';
 import 'package:dio_example/ui/go_screen/go_screen.dart';
@@ -17,10 +18,17 @@ class TabBarScreen extends StatefulWidget {
 }
 
 class _TabBarScreenState extends State<TabBarScreen> {
+  initLocation() async {
+    await initLocationService(context);
+  }
+
+
   late List<Widget> screens;
 
   @override
   void initState() {
+    initLocation();
+
     screens = [
       MapScreen(lat: widget.lat, long: widget.long),
       const GoScreen(),

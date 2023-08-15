@@ -39,13 +39,15 @@ class _MapScreenState extends State<MapScreen> {
       body: Stack(
         children: [
           GoogleMap(
+            myLocationEnabled: true,
+            myLocationButtonEnabled: false,
             
             onTap: (argument) {
               context.read<MapProvider>().updateLatLngAndAddMArker(argument);
               context
                   .read<MapProvider>()
                   .addSavedMArker(context.read<DatabaseProvider>().addresses);
-              showPlaceInfo(context, argument);
+              showPlaceInfo(context, argument, myLocation);
             },
             zoomControlsEnabled: false,
             compassEnabled: true,

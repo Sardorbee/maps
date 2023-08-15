@@ -18,6 +18,7 @@ class SavedScreen extends StatelessWidget {
           IconButton(
               onPressed: () {
                 context.read<DatabaseProvider>().deleteAllAddress();
+                context.read<MapProvider>().clearMarkers();
               },
               icon: const Icon(Icons.delete))
         ],

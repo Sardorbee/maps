@@ -8,7 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
-void showPlaceInfo(BuildContext context, LatLng location) {
+void showPlaceInfo(
+    BuildContext context, LatLng location, CameraPosition mylocation) {
   showModalBottomSheet(
     context: context,
     builder: (BuildContext builder) {
@@ -17,7 +18,7 @@ void showPlaceInfo(BuildContext context, LatLng location) {
       return Padding(
         padding: const EdgeInsets.all(16),
         child: SizedBox(
-          height: responsiveHeight * 0.2,
+          height: responsiveHeight * 0.25,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -92,11 +93,34 @@ void showPlaceInfo(BuildContext context, LatLng location) {
                         SizedBox(
                           width: responsiveWidth * 0.01,
                         ),
-                        MyButton(
-                          color: Colors.blue,
-                          icon: Icons.keyboard_double_arrow_up_sharp,
-                          text: "Start",
-                          onPressed: () {},
+                        Visibility(
+                          visible: !context.read<MapProvider>().isStartedRoute,
+                          child: MyButton(
+                            color: Colors.blue,
+                            icon: Icons.keyboard_double_arrow_up_sharp,
+                            text: "Start",
+                            onPressed: () {
+                              context.read<MapProvider>().addRouteStartMarker(
+                                  mylocation.target.latitude,
+                                  mylocation.target.longitude);
+                              context.read<MapProvider>().addRouteFinishMarker(
+                                  location.latitude, location.longitude);
+                              Navigator.pop(context);
+                            },
+                          ),
+                        ),
+                        Visibility(
+                          visible: context.read<MapProvider>().isStartedRoute,
+                          child: MyButton(
+                            color: Colors.blue,
+                            icon: Icons.clear,
+                            text: "Stop",
+                            onPressed: () {
+                              context.read<MapProvider>().clearMarkers();
+                              context.read<MapProvider>().updateIsStarted();
+                              Navigator.pop(context);
+                            },
+                          ),
                         ),
                         SizedBox(
                           width: responsiveWidth * 0.01,
